@@ -209,6 +209,30 @@ public class SweetServiceTest {
         assertTrue(exception.getMessage().contains("Not implemented"));
     }
 
+    @Test
+    public void testDeleteSweet_Success_Admin() {
+        User admin = User.builder()
+                .email("admin@example.com")
+                .password("encodedPass")
+                .role(Role.ADMIN)
+                .build();
+        userRepository.save(admin);
+
+        Sweet sweet = Sweet.builder()
+                .name("Chocolate")
+                .category(Category.CANDY)
+                .price(BigDecimal.valueOf(50))
+                .quantity(10)
+                .createdByUser(owner)
+                .build();
+        sweetRepository.save(sweet);
+
+        sweetService.deleteSweet(sweet.getId(), admin);
+
+        assertFalse(sweetRepository.findById(sweet.getId()).isPresent());
+    }
+
+
 
 
 }

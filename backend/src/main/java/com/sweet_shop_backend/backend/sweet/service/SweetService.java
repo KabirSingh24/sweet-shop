@@ -1,6 +1,7 @@
 package com.sweet_shop_backend.backend.sweet.service;
 
 
+import com.sweet_shop_backend.backend.auth.model.Role;
 import com.sweet_shop_backend.backend.auth.model.User;
 import com.sweet_shop_backend.backend.auth.repository.UserRepository;
 import com.sweet_shop_backend.backend.common.dto.SweetRequest;
@@ -104,6 +105,18 @@ public class SweetService {
                 .quantity(updated.getQuantity())
                 .build();
     }
+
+    public void deleteSweet(Long id, User currentUser) {
+        Sweet sweet = sweetRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Sweet not found"));
+
+        if (currentUser.getRole() != Role.ADMIN) {
+            throw new RuntimeException("Only admin can delete a sweet");
+        }
+
+        sweetRepository.delete(sweet);
+    }
+
 
 
 }
