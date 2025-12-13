@@ -21,7 +21,7 @@ public class AuthService {
 
     public String register(AuthRequest request){
         if(userRepository.existsByEmail(request.getEmail())){
-            throw new IllegalArgumentException("User already exists");
+            throw new IllegalArgumentException("Email already exists");
         }
 
         User user=User.builder()
@@ -38,7 +38,7 @@ public class AuthService {
                 ()->new IllegalArgumentException("User not found"));
 
         if(!passwordEncoder.matches(request.getPassword(),user.getPassword())){
-            throw new RuntimeException("Invalid password");
+            throw new RuntimeException("Invalid credentials");
         }
         String token=jwtService.generateToken(user);
         return new AuthResponse(token);

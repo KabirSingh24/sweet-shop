@@ -1,10 +1,6 @@
 package com.sweet_shop_backend.backend.common.dto;
 
 import com.sweet_shop_backend.backend.sweet.model.Category;
-import jakarta.validation.constraints.DecimalMin;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.math.BigDecimal;
@@ -14,18 +10,10 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class SweetRequest {
-    @NotBlank
+public class SweetResponse {
+    private Long id;
     private String name;
-
-    @NotNull
     private Category category;
-
-    @NotNull
-    @DecimalMin("0.0")
     private BigDecimal price;
-
-    @NotNull
-    @Min(0)
     private Integer quantity;
 }

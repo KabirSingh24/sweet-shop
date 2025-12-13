@@ -2,11 +2,17 @@ package com.sweet_shop_backend.backend.sweet.model;
 
 import com.sweet_shop_backend.backend.common.utils.AuditField;
 import jakarta.persistence.*;
+import lombok.*;
 
 import java.math.BigDecimal;
 
 @Entity
 @Table(name = "sweets")
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class Sweet extends AuditField {
 
     @Id
