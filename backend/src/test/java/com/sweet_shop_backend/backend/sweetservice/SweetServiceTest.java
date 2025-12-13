@@ -66,5 +66,30 @@ public class SweetServiceTest {
         assertEquals(BigDecimal.valueOf(50.00), saved.getPrice());
         assertEquals(10, saved.getQuantity());
     }
+    @Test
+    public void testUpdateSweet_FailsInitially() {
+        // Red test: updateSweet not implemented yet
+        Sweet sweet = Sweet.builder()
+                .name("Chocolate")
+                .category(Category.CANDY)
+                .price(BigDecimal.valueOf(50.00))
+                .quantity(10)
+                .build();
+        sweetRepository.save(sweet);
+
+        SweetRequest updateRequest = SweetRequest.builder()
+                .name("Dark Chocolate")
+                .category(Category.CHOCOLATE)
+                .price(BigDecimal.valueOf(60.00))
+                .quantity(15)
+                .build();
+
+        Exception exception = assertThrows(RuntimeException.class, () -> {
+            sweetService.updateSweet(sweet.getId(), updateRequest);
+        });
+
+        assertTrue(exception.getMessage().contains("Not implemented"));
+    }
+
 
 }
