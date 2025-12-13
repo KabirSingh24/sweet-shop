@@ -75,7 +75,6 @@ public class SweetServiceTest {
         assertEquals(BigDecimal.valueOf(50.00), saved.getPrice());
         assertEquals(10, saved.getQuantity());
 
-        // Check that createdBy is correctly set
         Sweet persisted = sweetRepository.findById(saved.getId()).orElseThrow();
         assertEquals(owner.getId(), persisted.getCreatedByUser().getId());
     }
@@ -135,7 +134,6 @@ public class SweetServiceTest {
 
     @Test
     public void testGetAllSweets_FailsInitially() {
-        // Initially, service method not implemented
         Exception exception = assertThrows(RuntimeException.class, () -> {
             sweetService.getAllSweets();
         });
@@ -173,7 +171,6 @@ public class SweetServiceTest {
                 .build();
         sweetRepository.save(sweet);
 
-        // Method not implemented yet
         Exception exception = assertThrows(RuntimeException.class, () -> {
             sweetService.searchSweets("Chocolate", Category.CANDY, BigDecimal.valueOf(40), BigDecimal.valueOf(60));
         });
@@ -193,6 +190,25 @@ public class SweetServiceTest {
         assertEquals(1, results.size());
         assertEquals("Chocolate", results.get(0).getName());
     }
+
+    @Test
+    public void testDeleteSweet_FailsInitially() {
+        Sweet sweet = Sweet.builder()
+                .name("Chocolate")
+                .category(Category.CANDY)
+                .price(BigDecimal.valueOf(50))
+                .quantity(10)
+                .createdByUser(owner)
+                .build();
+        sweetRepository.save(sweet);
+
+        Exception exception = assertThrows(RuntimeException.class, () -> {
+            sweetService.deleteSweet(sweet.getId(), owner);
+        });
+
+        assertTrue(exception.getMessage().contains("Not implemented"));
+    }
+
 
 
 }
