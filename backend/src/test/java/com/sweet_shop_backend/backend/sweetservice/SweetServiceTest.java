@@ -130,4 +130,14 @@ public class SweetServiceTest {
 
         assertTrue(exception.getMessage().contains("Only creator can update this sweet"));
     }
+
+    @Test
+    public void testGetAllSweets_FailsInitially() {
+        // Initially, service method not implemented
+        Exception exception = assertThrows(RuntimeException.class, () -> {
+            sweetService.getAllSweets();
+        });
+        assertTrue(exception.getMessage().contains("Not implemented"));
+    }
+
 }

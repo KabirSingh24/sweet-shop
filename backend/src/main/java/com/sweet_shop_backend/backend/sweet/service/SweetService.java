@@ -42,7 +42,6 @@ public class SweetService {
                 .build();
     }
 
-    // Update Sweet only if the user is the creator
     public SweetResponse updateSweet(Long id, SweetRequest sweetRequest, Long userId) {
         Sweet sweet = sweetRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Sweet not found"));
