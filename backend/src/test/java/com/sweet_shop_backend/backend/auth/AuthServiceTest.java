@@ -1,5 +1,6 @@
 package com.sweet_shop_backend.backend.auth;
 
+import com.sweet_shop_backend.backend.auth.model.Role;
 import com.sweet_shop_backend.backend.auth.model.User;
 import com.sweet_shop_backend.backend.auth.repository.UserRepository;
 import com.sweet_shop_backend.backend.auth.service.AuthService;
@@ -24,6 +25,7 @@ public class AuthServiceTest {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
     private PasswordEncoder passwordEncoder;
 
     @BeforeEach
@@ -42,9 +44,11 @@ public class AuthServiceTest {
         assertNotNull(response);
         User user = userRepository.findByEmail("test@example.com").orElse(null);
         assertNotNull(user, "User should exist in DB");
-        assertEquals("Test User", user.getEmail());
+        assertEquals("test@example.com", user.getEmail());
         assertTrue(passwordEncoder.matches("password123", user.getPassword()));
+        assertEquals(Role.USER, user.getRole());
     }
+
 
     @Test
     public void testRegisterUser_EmailAlreadyExists() {
