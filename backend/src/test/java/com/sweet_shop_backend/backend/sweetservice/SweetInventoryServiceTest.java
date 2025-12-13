@@ -68,4 +68,9 @@ public class SweetInventoryServiceTest {
         assertTrue(ex.getMessage().contains("Insufficient quantity"));
     }
 
+    @Test
+    public void testRestockSweet_Success_Admin() {
+        SweetResponse response = sweetService.restockSweet(sweet.getId(), admin.getId(), 20);
+        assertEquals(30, response.getQuantity());
+    }
 }
