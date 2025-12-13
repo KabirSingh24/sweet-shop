@@ -62,7 +62,7 @@ public class AuthServiceTest {
         request.setEmail("login@example.com");
         request.setPassword("mypassword");
 
-        AuthResponse response = authService.loginUser(request);
+        AuthResponse response = authService.login(request);
 
         assertNotNull(response.getToken(), "JWT token should not be null");
     }
