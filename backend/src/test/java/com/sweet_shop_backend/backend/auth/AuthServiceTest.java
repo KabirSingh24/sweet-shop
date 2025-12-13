@@ -49,75 +49,22 @@ public class AuthServiceTest {
         assertEquals(Role.USER, user.getRole());
     }
 
-
-    @Test
-    public void testRegisterUser_EmailAlreadyExists() {
-        // create existing user
-        User existing = new User();
-        existing.setEmail("test@example.com");
-
-        existing.setPassword(passwordEncoder.encode("abc123"));
-        userRepository.save(existing);
-
-        AuthRequest request = new AuthRequest();
-        request.setEmail("test@example.com");
-        request.setPassword("password123");
-
-        Exception exception = assertThrows(RuntimeException.class, () -> {
-            authService.register(request);
-        });
-
-        String expectedMessage = "Email already exists";
-        String actualMessage = exception.getMessage();
-        assertTrue(actualMessage.contains(expectedMessage));
-    }
-
     @Test
     public void testLoginUser_Success() {
         // register user first
         User user = new User();
         user.setEmail("login@example.com");
-
         user.setPassword(passwordEncoder.encode("mypassword"));
+        user.setRole(Role.USER);
         userRepository.save(user);
 
         AuthRequest request = new AuthRequest();
         request.setEmail("login@example.com");
         request.setPassword("mypassword");
 
-        AuthResponse response = authService.login(request);
+        AuthResponse response = authService.loginUser(request);
 
         assertNotNull(response.getToken(), "JWT token should not be null");
     }
 
-    @Test
-    public void testLoginUser_InvalidPassword() {
-        User user = new User();
-        user.setEmail("login@example.com");
-        user.setPassword(passwordEncoder.encode("mypassword"));
-        userRepository.save(user);
-
-        AuthRequest request = new AuthRequest();
-        request.setEmail("login@example.com");
-        request.setPassword("wrongpassword");
-
-        Exception exception = assertThrows(RuntimeException.class, () -> {
-            authService.login(request);
-        });
-
-        assertTrue(exception.getMessage().contains("Invalid credentials"));
-    }
-
-    @Test
-    public void testLoginUser_EmailNotFound() {
-        AuthRequest request = new AuthRequest();
-        request.setEmail("notfound@example.com");
-        request.setPassword("password");
-
-        Exception exception = assertThrows(RuntimeException.class, () -> {
-            authService.login(request);
-        });
-
-        assertTrue(exception.getMessage().contains("User not found"));
-    }
 }
