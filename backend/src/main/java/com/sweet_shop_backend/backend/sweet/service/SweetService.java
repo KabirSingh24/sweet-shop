@@ -137,6 +137,29 @@ public class SweetService {
                 .build();
     }
 
+    public SweetResponse restockSweet(Long sweetId, Long userId, int quantity) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        if (user.getRole() != Role.ADMIN) {
+            throw new RuntimeException("Only admin can restock");
+        }
+
+        Sweet sweet = sweetRepository.findById(sweetId)
+                .orElseThrow(() -> new RuntimeException("Sweet not found"));
+
+        sweet.setQuantity(sweet.getQuantity() + quantity);
+        Sweet updated = sweetRepository.save(sweet);
+
+        return SweetResponse.builder()
+                .id(updated.getId())
+                .name(updated.getName())
+                .category(updated.getCategory())
+                .price(updated.getPrice())
+                .quantity(updated.getQuantity())
+                .build();
+    }
+
 
 
 }

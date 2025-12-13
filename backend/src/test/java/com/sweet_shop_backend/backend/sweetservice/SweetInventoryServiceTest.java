@@ -73,4 +73,12 @@ public class SweetInventoryServiceTest {
         SweetResponse response = sweetService.restockSweet(sweet.getId(), admin.getId(), 20);
         assertEquals(30, response.getQuantity());
     }
+
+    @Test
+    public void testRestockSweet_FailsForNonAdmin() {
+        Exception ex = assertThrows(RuntimeException.class, () -> {
+            sweetService.restockSweet(sweet.getId(), owner.getId(), 10);
+        });
+        assertTrue(ex.getMessage().contains("Only admin can restock"));
+    }
 }
