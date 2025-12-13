@@ -1,5 +1,6 @@
 package com.sweet_shop_backend.backend.sweet.model;
 
+import com.sweet_shop_backend.backend.auth.model.User;
 import com.sweet_shop_backend.backend.common.utils.AuditField;
 import jakarta.persistence.*;
 import lombok.*;
@@ -31,4 +32,8 @@ public class Sweet extends AuditField {
 
     @Column(nullable = false)
     private Integer quantity;
+
+    @ManyToOne
+    @JoinColumn(name = "created_by_user_id", nullable = false)
+    private User createdByUser;
 }
