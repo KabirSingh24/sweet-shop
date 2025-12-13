@@ -1,6 +1,8 @@
 package com.sweet_shop_backend.backend.sweetservice;
 
 
+import com.sweet_shop_backend.backend.common.dto.SweetRequest;
+import com.sweet_shop_backend.backend.common.dto.SweetResponse;
 import com.sweet_shop_backend.backend.sweet.model.Category;
 import com.sweet_shop_backend.backend.sweet.model.Sweet;
 import com.sweet_shop_backend.backend.sweet.repository.SweetRepository;
@@ -32,7 +34,7 @@ public class SweetServiceTest {
     @Test
     public void testAddSweet_FailsInitially() {
         // This is the Red test: fail because method not implemented yet
-        Sweet sweet = Sweet.builder()
+        SweetRequest request = SweetRequest.builder()
                 .name("Chocolate")
                 .category(Category.CANDY)
                 .price(BigDecimal.valueOf(50.00))
@@ -40,9 +42,29 @@ public class SweetServiceTest {
                 .build();
 
         Exception exception = assertThrows(RuntimeException.class, () -> {
-            sweetService.addSweet(sweet);
+            sweetService.addSweet(request);
         });
 
         assertTrue(exception.getMessage().contains("Not implemented"));
     }
+
+
+    @Test
+    public void testAddSweet_Success() {
+        SweetRequest request = SweetRequest.builder()
+                .name("Chocolate")
+                .category(Category.CANDY)
+                .price(BigDecimal.valueOf(50.00))
+                .quantity(10)
+                .build();
+
+        SweetResponse saved = sweetService.addSweet(request);
+
+        assertNotNull(saved.getId());
+        assertEquals("Chocolate", saved.getName());
+        assertEquals(Category.CANDY, saved.getCategory());
+        assertEquals(BigDecimal.valueOf(50.00), saved.getPrice());
+        assertEquals(10, saved.getQuantity());
+    }
+
 }
