@@ -2,10 +2,13 @@ package com.sweet_shop_backend.backend.config;
 
 import com.sweet_shop_backend.backend.auth.model.User;
 import com.sweet_shop_backend.backend.auth.repository.UserRepository;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
@@ -29,8 +32,35 @@ public class JwtService {
                 .subject(user.getEmail())
                 .claim("userId",user.getId().toString())
                 .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(new Date(System.currentTimeMillis()+100*60*60))
+                .expiration(new Date(System.currentTimeMillis()+1000*60*10))
                 .signWith(getSecretKey())
                 .compact();
     }
+
+    public boolean isTokenValid(String token, User user) {
+        try {
+            Claims clamis= Jwts.parser()
+                    .verifyWith(getSecretKey())
+                    .build()
+                    .parseSignedClaims(token)
+                    .getPayload();
+
+            String email = clamis.getSubject();
+            Date exp = clamis.getExpiration();
+
+            return email.equals(user.getEmail()) && !exp.before(new Date());
+        } catch (JwtException e) {
+            return false;
+        }
+    }
+
+    public String extractUsername(String token) {
+        Claims claims = Jwts.parser()
+                .verifyWith(getSecretKey())
+                .build()
+                .parseSignedClaims(token)
+                .getPayload();
+        return claims.getSubject();
+    }
+
 }
