@@ -52,4 +52,18 @@ public class SweetController {
                             @AuthenticationPrincipal User user) {
         sweetService.deleteSweet(id, user);
     }
+    @PostMapping("/{id}/purchase")
+    public SweetResponse purchaseSweet(@PathVariable Long id,
+                                       @RequestParam int quantity,
+                                       @AuthenticationPrincipal User user) {
+        return sweetService.purchaseSweet(id, user.getId(), quantity);
+    }
+
+    @PostMapping("/{id}/restock")
+    public SweetResponse restockSweet(@PathVariable Long id,
+                                      @RequestParam int quantity,
+                                      @AuthenticationPrincipal User user) {
+        return sweetService.restockSweet(id, user.getId(), quantity);
+    }
+
 }
