@@ -5,11 +5,13 @@ import com.sweet_shop_backend.backend.auth.model.User;
 import com.sweet_shop_backend.backend.auth.repository.UserRepository;
 import com.sweet_shop_backend.backend.common.dto.SweetRequest;
 import com.sweet_shop_backend.backend.common.dto.SweetResponse;
+import com.sweet_shop_backend.backend.sweet.model.Category;
 import com.sweet_shop_backend.backend.sweet.model.Sweet;
 import com.sweet_shop_backend.backend.sweet.repository.SweetRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,6 +24,25 @@ public class SweetService {
 
     public List<SweetResponse> getAllSweets() {
         List<Sweet> sweets = sweetRepository.findAll();
+
+        return sweets.stream()
+                .map(s -> SweetResponse.builder()
+                        .id(s.getId())
+                        .name(s.getName())
+                        .category(s.getCategory())
+                        .price(s.getPrice())
+                        .quantity(s.getQuantity())
+                        .build())
+                .collect(Collectors.toList());
+    }
+
+    public List<SweetResponse> searchSweets(String name, Category category, BigDecimal minPrice, BigDecimal maxPrice) {
+        List<Sweet> sweets = sweetRepository.findAll().stream()
+                .filter(s -> (name == null || s.getName().toLowerCase().contains(name.toLowerCase())))
+                .filter(s -> (category == null || s.getCategory() == category))
+                .filter(s -> (minPrice == null || s.getPrice().compareTo(minPrice) >= 0))
+                .filter(s -> (maxPrice == null || s.getPrice().compareTo(maxPrice) <= 0))
+                .collect(Collectors.toList());
 
         return sweets.stream()
                 .map(s -> SweetResponse.builder()

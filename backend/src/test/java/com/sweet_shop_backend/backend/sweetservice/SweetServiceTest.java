@@ -181,5 +181,18 @@ public class SweetServiceTest {
         assertTrue(exception.getMessage().contains("Not implemented"));
     }
 
+    @Test
+    public void testSearchSweets_ReturnsCorrectResults() {
+        Sweet sweet1 = Sweet.builder().name("Chocolate").category(Category.CANDY).price(BigDecimal.valueOf(50)).quantity(10).createdByUser(owner).build();
+        Sweet sweet2 = Sweet.builder().name("Dark Chocolate").category(Category.CHOCOLATE).price(BigDecimal.valueOf(60)).quantity(5).createdByUser(owner).build();
+        sweetRepository.save(sweet1);
+        sweetRepository.save(sweet2);
+
+        List<SweetResponse> results = sweetService.searchSweets("Chocolate", null, BigDecimal.valueOf(40), BigDecimal.valueOf(55));
+
+        assertEquals(1, results.size());
+        assertEquals("Chocolate", results.get(0).getName());
+    }
+
 
 }
