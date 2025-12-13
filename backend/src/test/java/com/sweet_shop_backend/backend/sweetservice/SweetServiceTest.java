@@ -155,5 +155,31 @@ public class SweetServiceTest {
         assertTrue(sweets.stream().anyMatch(s -> s.getName().equals("Lollipop")));
     }
 
+    @Test
+    public void testSearchSweets_FailsInitially() {
+        SweetRequest request = SweetRequest.builder()
+                .name("Chocolate")
+                .category(Category.CANDY)
+                .price(BigDecimal.valueOf(50))
+                .quantity(10)
+                .build();
+
+        Sweet sweet = Sweet.builder()
+                .name(request.getName())
+                .category(request.getCategory())
+                .price(request.getPrice())
+                .quantity(request.getQuantity())
+                .createdByUser(owner)
+                .build();
+        sweetRepository.save(sweet);
+
+        // Method not implemented yet
+        Exception exception = assertThrows(RuntimeException.class, () -> {
+            sweetService.searchSweets("Chocolate", Category.CANDY, BigDecimal.valueOf(40), BigDecimal.valueOf(60));
+        });
+
+        assertTrue(exception.getMessage().contains("Not implemented"));
+    }
+
 
 }
