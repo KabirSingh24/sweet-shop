@@ -10,12 +10,30 @@ import com.sweet_shop_backend.backend.sweet.repository.SweetRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @RequiredArgsConstructor
 public class SweetService {
 
     private final SweetRepository sweetRepository;
     private final UserRepository userRepository;
+
+    public List<SweetResponse> getAllSweets() {
+        List<Sweet> sweets = sweetRepository.findAll();
+
+        return sweets.stream()
+                .map(s -> SweetResponse.builder()
+                        .id(s.getId())
+                        .name(s.getName())
+                        .category(s.getCategory())
+                        .price(s.getPrice())
+                        .quantity(s.getQuantity())
+                        .build())
+                .collect(Collectors.toList());
+    }
+
 
     public SweetResponse addSweet(SweetRequest sweetRequest, Long userId) {
         if (sweetRequest == null) throw new RuntimeException("Sweet cannot be null");

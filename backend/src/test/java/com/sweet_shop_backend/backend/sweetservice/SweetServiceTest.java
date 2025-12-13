@@ -17,6 +17,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 import static org.junit.jupiter.api.Assertions.*;
 import java.math.BigDecimal;
+import java.util.List;
+
 import org.junit.jupiter.api.*;
 
 
@@ -139,5 +141,19 @@ public class SweetServiceTest {
         });
         assertTrue(exception.getMessage().contains("Not implemented"));
     }
+    @Test
+    public void testGetAllSweets_ReturnsCorrectSweets() {
+        Sweet sweet1 = Sweet.builder().name("Chocolate").category(Category.CANDY).price(BigDecimal.valueOf(50)).quantity(10).createdByUser(owner).build();
+        Sweet sweet2 = Sweet.builder().name("Lollipop").category(Category.CANDY).price(BigDecimal.valueOf(20)).quantity(5).createdByUser(owner).build();
+        sweetRepository.save(sweet1);
+        sweetRepository.save(sweet2);
+
+        List<SweetResponse> sweets = sweetService.getAllSweets();
+
+        assertEquals(2, sweets.size());
+        assertTrue(sweets.stream().anyMatch(s -> s.getName().equals("Chocolate")));
+        assertTrue(sweets.stream().anyMatch(s -> s.getName().equals("Lollipop")));
+    }
+
 
 }
