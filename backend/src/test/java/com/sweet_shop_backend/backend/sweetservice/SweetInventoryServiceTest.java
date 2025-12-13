@@ -1,5 +1,6 @@
 package com.sweet_shop_backend.backend.sweetservice;
 
+import com.sweet_shop_backend.backend.auth.model.Role;
 import com.sweet_shop_backend.backend.auth.model.User;
 import com.sweet_shop_backend.backend.auth.repository.UserRepository;
 import com.sweet_shop_backend.backend.common.dto.SweetResponse;
@@ -58,6 +59,13 @@ public class SweetInventoryServiceTest {
         assertEquals(5, response.getQuantity());
         Sweet updated = sweetRepository.findById(sweet.getId()).orElseThrow();
         assertEquals(5, updated.getQuantity());
+    }
+    @Test
+    public void testPurchaseSweet_InsufficientQuantity() {
+        Exception ex = assertThrows(RuntimeException.class, () -> {
+            sweetService.purchaseSweet(sweet.getId(), owner.getId(), 15);
+        });
+        assertTrue(ex.getMessage().contains("Insufficient quantity"));
     }
 
 }
