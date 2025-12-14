@@ -16,7 +16,7 @@ public class WebCorsConfig {
                 registry.addMapping("/**")
                         .allowedOrigins(
                                 "http://localhost:5173",
-                                "https://SweetShop.vercel.app"
+                                "https://sweet-shop-olive.vercel.app"
                         )
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                         .allowedHeaders("*")
