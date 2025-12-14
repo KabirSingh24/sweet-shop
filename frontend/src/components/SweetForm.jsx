@@ -1,5 +1,6 @@
 import { useState } from "react";
 import styles from "../styles/SweetForm.module.css";
+import React from "react";
 
 export default function SweetForm({ onClose, onSubmit, sweet }) {
   const [name, setName] = useState(sweet?.name || "");
