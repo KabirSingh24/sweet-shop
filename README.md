@@ -151,6 +151,7 @@ Frontend will open at http://localhost:5173
 - Generated boilerplate backend and frontend code  
 - Debugged API and CORS issues  
 - Suggested CSS and UI improvements  
+- Minimal frontend tests added to demonstrate TDD principle.
 
 **Reflection:**  
 AI sped up development, but all logic, structure, and styling were manually verified. The project was adapted to meet requirements and properly tested.  
@@ -166,7 +167,6 @@ Frontend: Vercel
 
 ## Future Improvements
 
-- Add TDD for frontend  
 - Add payment integration  
 - Add order history and admin analytics dashboard  
 
