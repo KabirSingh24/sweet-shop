@@ -32,7 +32,7 @@ public class JwtService {
                 .subject(user.getEmail())
                 .claim("userId",user.getId().toString())
                 .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(new Date(System.currentTimeMillis()+1000*60*10))
+                .expiration(new Date(System.currentTimeMillis() + 1000L * 60 * 60 * 24 * 7))
                 .signWith(getSecretKey())
                 .compact();
     }
