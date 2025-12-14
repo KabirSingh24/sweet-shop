@@ -4,6 +4,7 @@ import { isAdmin } from "../utils/jwt";
 import MainLayout from "../layout/MainLayout";
 import { useState } from "react";
 import styles from "../styles/Auth.module.css";
+import React from "react";
 
 export default function Auth() {
   const navigate = useNavigate();
