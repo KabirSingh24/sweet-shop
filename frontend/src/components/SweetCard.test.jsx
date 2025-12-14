@@ -1,3 +1,4 @@
+import React from "react"; // <- ADD THIS
 import { render, screen, fireEvent } from "@testing-library/react";
 import SweetCard from "./SweetCard";
 
@@ -20,5 +21,5 @@ test("renders sweet details correctly", () => {
 test("disables purchase button when out of stock", () => {
   const sweetOut = { ...sweet, quantity: 0 };
   render(<SweetCard sweet={sweetOut} onPurchase={() => {}} onEdit={() => {}} />);
-  expect(screen.getByText(/Out of Stock/i)).toBeDisabled();
+  expect(screen.getByText("Out of Stock")).toBeDisabled();
 });

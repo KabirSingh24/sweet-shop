@@ -1,4 +1,5 @@
 import styles from "../styles/SweetCard.module.css";
+import React from "react"; 
 
 export default function SweetCard({ sweet, onPurchase, onEdit }) {
   return (
