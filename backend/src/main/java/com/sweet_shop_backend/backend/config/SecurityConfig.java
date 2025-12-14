@@ -25,6 +25,7 @@ public class SecurityConfig {
                         .requestMatchers("/auth/**").permitAll()
                         .requestMatchers("/sweets/**").permitAll()
                         .requestMatchers(HttpMethod.DELETE, "/api/sweets/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/api/sweets/*/restock").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 ).addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
         return httpSecurity.build();

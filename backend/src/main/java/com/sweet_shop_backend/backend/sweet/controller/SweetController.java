@@ -47,6 +47,7 @@ public class SweetController {
         return sweetService.updateSweet(id, request, user.getId());
     }
 
+
     @DeleteMapping("/{id}")
     public void deleteSweet(@PathVariable Long id,
                             @AuthenticationPrincipal User user) {

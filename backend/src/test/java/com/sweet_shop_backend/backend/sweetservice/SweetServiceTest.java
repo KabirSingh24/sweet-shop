@@ -107,8 +107,7 @@ public class SweetServiceTest {
     }
 
     @Test
-    public void testUpdateSweet_FailsForNonOwner() {
-        // Create a sweet by owner
+    public void testUpdateSweet_SuccessForAnyUser() {
         Sweet sweet = Sweet.builder()
                 .name("Chocolate")
                 .category(Category.CANDY)
@@ -125,12 +124,15 @@ public class SweetServiceTest {
                 .quantity(15)
                 .build();
 
-        Exception exception = assertThrows(RuntimeException.class, () -> {
-            sweetService.updateSweet(sweet.getId(), updateRequest, otherUser.getId());
-        });
+        // Now any user can update
+        SweetResponse updated = sweetService.updateSweet(sweet.getId(), updateRequest, otherUser.getId());
 
-        assertTrue(exception.getMessage().contains("Only creator can update this sweet"));
+        assertEquals("Dark Chocolate", updated.getName());
+        assertEquals(Category.CHOCOLATE, updated.getCategory());
+        assertEquals(BigDecimal.valueOf(60.00), updated.getPrice());
+        assertEquals(15, updated.getQuantity());
     }
+
 
     @Test
     public void testGetAllSweets_FailsInitially() {

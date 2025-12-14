@@ -1,0 +1,99 @@
+.card {
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  width: 250px;
+  height: 390px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 1rem;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  background: #fff;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+}
+
+
+.card.user::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 40%; 
+  background: url('/src/assets/logo.jpeg') center/cover no-repeat;
+  z-index: 0;
+}
+
+.card.user h3,
+.card.user p,
+.card.user button {
+  position: relative;
+  z-index: 1;
+  color: #000000;
+  text-shadow: 1px 1px 4px rgba(0,0,0,0.7);
+}
+
+.card.user h3 {
+  font-size: 1.8rem;
+  text-align: center;
+  margin-bottom: 0.3rem;
+  color: rgb(250, 96, 6);
+}
+
+.card.user p {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0.2rem 0;
+}
+
+
+.button {
+  padding: 0.6rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background 0.2s ease;
+}
+
+.button.purchase {
+  width: 100%;
+  background: #f38647;
+  border-radius: 20px;
+  height: 40px;
+  color: white;
+  font-weight: bold;
+}
+
+.button.purchase:hover:not(:disabled) {
+  background: #f36818;
+}
+
+.button:disabled {
+  background: gray;
+  cursor: not-allowed;
+  color: #eee;
+}
+.button.update {
+  background: #00488b;
+  color: white;
+  border-radius: 12px;
+  height: 35px;
+}
+
+.button.update:hover {
+  background: #0066cc;
+} 
+.userButtons {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}

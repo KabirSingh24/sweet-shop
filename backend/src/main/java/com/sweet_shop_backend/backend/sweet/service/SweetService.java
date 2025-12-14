@@ -86,9 +86,6 @@ public class SweetService {
         Sweet sweet = sweetRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Sweet not found"));
 
-        if (!sweet.getCreatedByUser().getId().equals(userId)) {
-            throw new RuntimeException("Only creator can update this sweet");
-        }
 
         sweet.setName(sweetRequest.getName());
         sweet.setCategory(sweetRequest.getCategory());
@@ -105,6 +102,7 @@ public class SweetService {
                 .quantity(updated.getQuantity())
                 .build();
     }
+
 
     public void deleteSweet(Long id, User currentUser) {
         Sweet sweet = sweetRepository.findById(id)
